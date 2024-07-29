@@ -1,0 +1,51 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+import java.time.Duration;
+
+public class TestLogin {
+    private WebDriver driver;
+    private WebDriverWait wait;
+
+
+    @BeforeTest
+    public void setDriver() {
+        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.get("https://rozetka.com.ua/");
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    }
+
+
+    @Test
+    public void testLogin() {
+        WebElement findLogoIcon = driver.findElement(By.xpath("//li[@class=\"header-actions__item header-actions__item--user\"]"));
+        findLogoIcon.click();
+
+       WebElement waitProcess = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(text(),'Увійти через пошту')]")));
+        waitProcess.click();
+
+        WebElement InputEmail = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id=\"email\"]")));
+        InputEmail.sendKeys("aadkeke@gmail.com");
+
+        WebElement InputPassword = driver.findElement(By.xpath("//input[@id=\"password\"]"));
+        InputPassword.sendKeys("ghcjh");
+
+//        WebElement submitButtonlick = driver.findElement(By.cssSelector("submit-button__bottom"));
+//        submitButtonlick.click();
+    }
+
+        @AfterTest
+    public void closeDriver(){
+        driver.quit();
+    }
+
+
+}

@@ -4,16 +4,18 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+import pages.Main;
 
 import java.time.Duration;
+
 
 public class TestLogin {
     private WebDriver driver;
     private WebDriverWait wait;
-
 
     @BeforeTest
     public void setDriver() {
@@ -21,11 +23,13 @@ public class TestLogin {
         driver = new ChromeDriver();
         driver.get("https://rozetka.com.ua/");
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
     }
 
 
     @Test
-    public void testLogin() {
+    public void TestLogin() {
+
         WebElement findLogoIcon = driver.findElement(By.xpath("//li[@class=\"header-actions__item header-actions__item--user\"]"));
         findLogoIcon.click();
 
@@ -33,16 +37,19 @@ public class TestLogin {
         waitProcess.click();
 
         WebElement InputEmail = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id=\"email\"]")));
-        InputEmail.sendKeys("aadkeke@gmail.com");
+        InputEmail.sendKeys("testLS@gmail.com");
 
         WebElement InputPassword = driver.findElement(By.xpath("//input[@id=\"password\"]"));
         InputPassword.sendKeys("ghcjh");
 
-//        WebElement submitButtonlick = driver.findElement(By.cssSelector("submit-button__bottom"));
-//        submitButtonlick.click();
+        WebElement submitButtonlick = driver.findElement(By.xpath("//button[contains(text(),'Продовжити')]"));
+        submitButtonlick.click();
+
+        WebElement errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("form__hint form__hint_type_warning")));
+        Assert.assertTrue(errorMessage.isDisplayed(), "Користувач з логіном +  + не зареєстрований");
     }
 
-        @AfterTest
+    @AfterTest
     public void closeDriver(){
         driver.quit();
     }

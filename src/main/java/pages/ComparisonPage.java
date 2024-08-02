@@ -42,7 +42,7 @@ public class ComparisonPage {
     @FindBy(css = "notification__wrapper notification__wrapper--success")
     private WebElement notification;
     public void Appearnotification(){
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("notification__wrapper notification__wrapper--success")));
+        wait.until(ExpectedConditions.visibilityOf(notification));
     }
 
     @FindBy(xpath = "//button[contains(@class, 'compare-button')]")
@@ -53,17 +53,17 @@ public class ComparisonPage {
 
     @FindBy(xpath = "//li[@class='header-actions__item header-actions__item--comparison ng-star-inserted']")
     private WebElement buttonCompare;
+    public void  clickOnComparePage(){
+        wait.until(ExpectedConditions.elementToBeClickable(buttonCompare)).click();
+    }
 
+    @FindBy(css = ".comparison-product__item")
+    private List<WebElement> comparisonProducts;
+    public int getNumberOfComparisonProducts() {
+        wait.until(ExpectedConditions.visibilityOfAllElements(comparisonProducts));
+        return comparisonProducts.size();
+    }
 
-//
-//    public void  clickOnComparePage(){
-//        wait.until(ExpectedConditions.elementToBeClickable(buttonCompare)).click();
-//    }
-//
-//    public int getNumberOfComparisonProducts() {
-//        wait.until(ExpectedConditions.visibilityOfAllElements(comparisonProducts));
-//        return comparisonProducts.size();
-//    }
 }
 
 

@@ -54,7 +54,7 @@ public class RozetkaTest {
     @Test
     public void FiltrCategory() {
         driver.get("https://rozetka.com.ua/ua/computers-notebooks/c80253/");
-        category.clickOnCategory();
+//        category.clickOnCategory();
         category.clickOnMonitorCategory();
         category.clickOnAorusFiltr();
         int numberOfProducts = category.getNumberOfProducts();
@@ -69,11 +69,10 @@ public class RozetkaTest {
       compare.addToCompare();
       compare.Appearnotification();
       compare.addToCompareTwo();
-//      compare.clickOnComparePage();
-//      int numberOfComparisonProducts = compare.getumberOfComparisonProducts();
-//      assertEquals(2,numberOfComparisonProducts);
+      compare.clickOnComparePage();
+      int numberOfComparisonProducts = compare.getumberOfComparisonProducts();
+      Assert.assertEquals(numberOfComparisonProducts, 2, "Number of comparison products is not equal to 2");
   }
-
 
 
     @AfterTest

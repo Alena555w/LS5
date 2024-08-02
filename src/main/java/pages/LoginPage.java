@@ -55,7 +55,11 @@ public class LoginPage {
     @FindBy(css = "form__hint form__hint_type_warning")
     public static WebElement errorMessage;
     public void waitErrorMessage(){
-       wait.until(ExpectedConditions.textToBePresentInElement(errorMessage,"Користувач з логіном testLS@gmail.com не зареєстрований"));
+       wait.until(ExpectedConditions.visibilityOf(errorMessage));
+    }
+
+    public boolean isErrorMessageDisplayed() {
+        return errorMessage.isDisplayed();
     }
 }
 

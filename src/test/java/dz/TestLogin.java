@@ -1,3 +1,6 @@
+package dz;
+
+import io.qameta.allure.testng.AllureTestNg;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,12 +10,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-import pages.Main;
 
 import java.time.Duration;
 
-
+@Listeners({AllureTestNg.class})
 public class TestLogin {
     private WebDriver driver;
     private WebDriverWait wait;
@@ -46,7 +49,7 @@ public class TestLogin {
         submitButtonlick.click();
 
         WebElement errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("form__hint form__hint_type_warning")));
-        Assert.assertTrue(errorMessage.isDisplayed(), "Користувач з логіном +  + не зареєстрований");
+        Assert.assertTrue(errorMessage.isDisplayed(), "Користувач з логіном testLS@gmail.com не зареєстрований");
     }
 
     @AfterTest

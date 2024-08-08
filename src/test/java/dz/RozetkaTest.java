@@ -1,5 +1,6 @@
 package dz;
 
+import io.qameta.allure.testng.AllureTestNg;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -8,6 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.CategoryPage;
 import pages.ComparisonPage;
@@ -18,6 +20,7 @@ import java.time.Duration;
 import static org.testng.AssertJUnit.assertEquals;
 import static pages.LoginPage.errorMessage;
 
+@Listeners({AllureTestNg.class})
 public class RozetkaTest {
     private WebDriver driver;
     private WebDriverWait wait;

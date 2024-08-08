@@ -1,4 +1,7 @@
+import io.qameta.allure.testng.AllureTestNg;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import java.net.http.HttpResponse;
@@ -6,64 +9,26 @@ import java.net.http.HttpResponse;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
+@Listeners({AllureTestNg.class})
 public class APItest {
     @Test
-    void getListOfUsers(){
+    void testGetListUsers() {
         given()
                 .baseUri("https://reqres.in/api")
                 .log().all()
                 .when()
-                .get("/users")
-                .then()
-                .log().all()
-                .statusCode(200);
-    }
-
-
-    @Test
-    void getListOfUsersCheckBody(){
-        given()
-                .baseUri("https://reqres.in/api")
-                .log().all()
-                .when()
-                .get("/users")
+                .get("/users?page=2")
                 .then()
                 .log().all()
                 .statusCode(200)
-                .body(not(emptyString()));
+                .body("data", is(not(empty())));
     }
 
-    @Test
-    void getListOfUsersCheckBodyField(){
-        given()
-                .baseUri("https://reqres.in/api")
-                .log().all()
-                .when()
-                .get("/users")
-                .then()
-                .log().all()
-                .statusCode(200)
-                .body("per_page", equalTo(6));
-    }
 
     @Test
-    void getListOfUsersCheckBodyFieldData(){
-        given()
-                .baseUri("https://reqres.in/api")
-                .log().all()
-                .when()
-                .get("/users/1")
-                .then()
-                .log().all()
-                .statusCode(200)
-                .body("data.first_name", equalTo("George"));
-    }
-
-    @Test
-    void postCreateUser(){
+    void postLoginUnsuccessful() {
         String body = "{\n" +
-                "    \"name\": \"morpheus\",\n" +
-                "    \"job\": \"leader\"\n" +
+                "  \"email\": \"peter@klaven\"\n" +
                 "}";
 
         given()
@@ -72,14 +37,35 @@ public class APItest {
                 .body(body)
                 .log().all()
                 .when()
-                .post("/users")
+                .post("/login")
                 .then()
                 .log().all()
-                .statusCode(201)
+                .statusCode(400)
                 .body(not(emptyString()))
-                .body("name", equalTo("morpheus"))
-                .body("job", equalTo("leader"));
-
+                .body("error", equalTo("Missing password"));
     }
 
+    @Test
+    void testDeleteUser() {
+        String body = "{\n" +
+                "  \"name\": \"morpheus\",\n" +
+                "  \"job\": \"zion resident\"\n" +
+                "}";
+
+        given()
+                .baseUri("https://reqres.in/api")
+                .contentType("application/json")
+                .body(body)
+                .log().all()
+                .when()
+                .put("/api/users/2")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body(not(emptyString()))
+                .body("name", equalTo("morpheus"))
+                .body("job", equalTo("zion resident"));
+
+    }
 }
+

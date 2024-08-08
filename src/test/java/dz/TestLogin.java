@@ -15,7 +15,6 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-@Listeners({AllureTestNg.class})
 public class TestLogin {
     private WebDriver driver;
     private WebDriverWait wait;
